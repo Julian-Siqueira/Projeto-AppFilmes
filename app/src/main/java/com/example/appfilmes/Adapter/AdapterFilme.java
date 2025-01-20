@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.appfilmes.Model.Filme;
 import com.example.appfilmes.R;
 
@@ -37,7 +38,7 @@ public class AdapterFilme extends RecyclerView.Adapter<AdapterFilme.FilmeViewHol
 
     @Override
     public void onBindViewHolder(@NonNull FilmeViewHolder holder, int position) {
-        holder.capaFilme.setImageResource(filmeList.get(position).getCapa());
+        Glide.with(context).load(filmeList.get(position).getCapa()).into(holder.capa);
         holder.titulo.setText(filmeList.get(position).getTitulo());
 
     }
@@ -49,12 +50,12 @@ public class AdapterFilme extends RecyclerView.Adapter<AdapterFilme.FilmeViewHol
 
     public class FilmeViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView capaFilme;
+        private ImageView capa;
         private TextView titulo;
 
         public FilmeViewHolder(@NonNull View itemView) {
             super(itemView);
-            capaFilme = itemView.findViewById(R.id.capa_filme);
+            capa = itemView.findViewById(R.id.capa_filme);
             titulo = itemView.findViewById(R.id.titulo_filme);
         }
     }
