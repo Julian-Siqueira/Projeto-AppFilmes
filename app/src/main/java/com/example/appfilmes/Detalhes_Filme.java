@@ -32,9 +32,19 @@ public class Detalhes_Filme extends AppCompatActivity {
         tituloDetalhes.setText(intent.getStringExtra("titulo"));
         descricaoDetalhes.setText(intent.getStringExtra("descricao"));
         elencoDetalhes.setText(intent.getStringExtra("elenco"));
+        String video = intent.getStringExtra("video");
+        String stVideo = video;
+
 
         toolbarDetalhes.setOnClickListener(v ->{
             finish();
+        });
+
+        videoDetalhes.setOnClickListener(view -> {
+            Intent telaVideo = new Intent(getApplicationContext(), Video.class);
+            telaVideo.putExtra("video", stVideo);
+            startActivity(telaVideo);
+
         });
 
     }
@@ -48,7 +58,6 @@ public class Detalhes_Filme extends AppCompatActivity {
         descricaoDetalhes = findViewById(R.id.descricao_detalhes);
         elencoDetalhes = findViewById(R.id.elenco_detalhes);
         videoDetalhes = findViewById(R.id.play_videos);
-
         toolbarDetalhes = findViewById(R.id.toolbar_detalhes);
     }
 }

@@ -33,6 +33,7 @@ android {
 
 dependencies {
 
+    implementation("org.tensorflow:tensorflow-lite:2.10.0")  // ou versão mais recente
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
