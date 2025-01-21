@@ -1,7 +1,10 @@
 package com.example.appfilmes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appfilmes.Adapter.AdapterFilme;
 import com.example.appfilmes.Model.Filme;
 import com.example.appfilmes.Model.FilmeApi;
+import com.example.appfilmes.RecyclerItemClickListener.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().hide();
 
         inicializarComponentes();
 
@@ -67,6 +73,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        recyclerViewFilmes.addOnItemTouchListener(new RecyclerItemClickListener(
+                getApplicationContext(),
+                recyclerViewFilmes,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+                        Filme filmes = listFilmes.get(position);
+                        Log.i("Filme", filmes.toString());
+                        Intent intent = new Intent(getApplicationContext(), Detalhes_Filme.class);
+                        intent.putExtra("titulo", filmes.getTitulo());
+                        intent.putExtra("capa", filmes.getCapa());
+                        intent.putExtra("descricao", filmes.getDescricao());
+                        intent.putExtra("elenco", filmes.getElenco());
+                        intent.putExtra("video", filmes.getVideo());
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    }
+                }
+        ));
+
     }
 
     private void inicializarComponentes() {
