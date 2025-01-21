@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("MainActivity", "onCreate started");
+
         getSupportActionBar().hide();
 
         inicializarComponentes();
@@ -53,24 +55,28 @@ public class MainActivity extends AppCompatActivity {
         listCall.enqueue(new Callback<List<Filme>>() {
             @Override
             public void onResponse(Call<List<Filme>> call, Response<List<Filme>> response) {
-                if (response.code() != 200){
-                    return;
-                }
-                List<Filme> filmes = new ArrayList<>();
-                filmes = response.body();
-
-                for (Filme filme : filmes){
-                    listFilmes.add(filme);
-                }
-                adapterFilme = new AdapterFilme(getApplicationContext(), listFilmes);
-                recyclerViewFilmes.setAdapter(adapterFilme);
-                recyclerViewFilmes.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-                recyclerViewFilmes.setHasFixedSize(true);
-            }
+                try {
+                    if (response.code() != 200) {
+                        Log.e("Retrofit", "Erro ao receber dados: " + response.code());
+                        return;
+                    }
+                    List<Filme> filmes = response.body();
+                    if (filmes != null) {
+                        for (Filme filme : filmes) {
+                            listFilmes.add(filme);
+                        }
+                    }
+                    adapterFilme = new AdapterFilme(getApplicationContext(), listFilmes);
+                    recyclerViewFilmes.setAdapter(adapterFilme);
+                    recyclerViewFilmes.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    recyclerViewFilmes.setHasFixedSize(true);
+                } catch (Exception e) {
+                    Log.e("Retrofit", "Erro inesperado", e);
+                }}
 
             @Override
             public void onFailure(Call<List<Filme>> call, Throwable t) {
-
+                Log.e("API", "Erro ao carregar filmes", t);
             }
         });
 
